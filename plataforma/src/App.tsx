@@ -6,7 +6,40 @@ import { Register } from "./pages/register";
 import { Dashbord } from "./pages/dashbord";
 import { New } from "./pages/dashbord/new";
 import { CarDetail } from "./pages/car";
+import { Layout } from "./components/layout";
 
 const router = createBrowserRouter ([
+  {
+    element: <Layout/>,
+    children:[
+    {
+      path:"/",
+      element: <Home/>
+    },
+    {
+      path: "/car/:id",
+      element: <CarDetail/>
+    },
+    {
+      path: "/dashbord/new",
+      element: <New/>
+    },
+    {
+      path: "/dashbord",
+      element: <Dashbord/>
+    }
+  ]
+  },
+
+  {
+    path: "/login",
+    element: <Login/>
+  },
+  {
+    path: "register",
+    element: <Register/>
+  },
   
 ])
+
+export {router} ;

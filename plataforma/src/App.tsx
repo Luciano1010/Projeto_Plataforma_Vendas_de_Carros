@@ -1,10 +1,12 @@
-function App() {
-  return (
-    <div>
-       <h1>Web Carros</h1>
-    </div>
-   
-  )
-}
+import { createBrowserRouter } from "react-router-dom";
 
-export default App
+import { Home } from "./pages/home";
+import { Login } from "./pages/login";
+import { Register } from "./pages/register";
+import { Dashbord } from "./pages/dashbord";
+import { New } from "./pages/dashbord/new";
+import { CarDetail } from "./pages/car";
+
+const router = createBrowserRouter ([
+  
+])

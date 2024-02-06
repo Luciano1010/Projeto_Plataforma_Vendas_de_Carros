@@ -1,10 +1,14 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logoimg from '../../assets/logo.svg'
 import { Contaneir } from '../../components/contaneir'
 import { Input } from '../../components/input'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
+import { createUserWithEmailAndPassword, signOut, updateProfile } from '@firebase/auth'
+import { auth } from '../../services/firebaseconnection'
+import { useEffect } from 'react'
+
 
 const schema = z.object({
   name: z.string().min(1, { message: "O campo é obrigatorio" }),
@@ -19,13 +23,34 @@ type FormData = z.infer<typeof schema>
 
 export function Register() {
 
+  const navigate = useNavigate();
+
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "onChange"
   })
 
-  function onsubmit(data: FormData) {
-    console.log(data)
+  useEffect (() => {
+    async function handleLogout(){
+      await signOut(auth)
+    }
+
+    handleLogout();
+  }, [])
+
+  async function onSubmit(data: FormData) {
+
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+    .then( async ( user ) => {
+        await updateProfile(user.user, {
+          displayName: data.name
+        })
+       
+        navigate("/dashboard", {replace: true})
+    })
+    .catch((error) => {
+        console.log("Erro ao cadastrar o usuario", error)
+    })
   }
 
   return (
@@ -41,7 +66,7 @@ export function Register() {
 
         <form
           className='bg-white max-w-xl w-full rounded-lg p-4'
-          onSubmit={handleSubmit(onsubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className='mb-3'>
             <Input
@@ -76,7 +101,7 @@ export function Register() {
             />
           </div>
           <button type='submit' className='bg-zinc-900 w-full rounded-md text-white h-10 font-medium'>
-            Acessar
+            Cadastrar
           </button>
         </form>
 

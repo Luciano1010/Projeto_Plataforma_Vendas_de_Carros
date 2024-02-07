@@ -7,7 +7,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createUserWithEmailAndPassword, signOut, updateProfile } from '@firebase/auth'
 import { auth } from '../../services/firebaseconnection'
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
+import { authContext } from '../../context/authContext'
 
 
 const schema = z.object({
@@ -22,6 +23,8 @@ type FormData = z.infer<typeof schema>
 
 
 export function Register() {
+
+  const { handleInfoUser } = useContext(authContext)
 
   const navigate = useNavigate();
 
@@ -44,6 +47,12 @@ export function Register() {
     .then( async ( user ) => {
         await updateProfile(user.user, {
           displayName: data.name
+        })
+
+        handleInfoUser({
+          name: data.name,
+          email: data.email,
+          uid: user.user.uid
         })
        
         navigate("/dashboard", {replace: true})

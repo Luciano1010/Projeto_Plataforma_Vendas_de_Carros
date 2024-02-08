@@ -11,7 +11,7 @@ export function Private({ children}: PrivateProps): any{
    const { signed, loadingAuth} = useContext(authContext)
 
    if(loadingAuth){
-    return <div>load</div>
+
    }
 
    if(!signed){

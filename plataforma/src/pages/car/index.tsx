@@ -1,7 +1,7 @@
 export function CarDetail() {
     return (
       <div>
-         <h1>Detalhes do Carros</h1>
+         <h1>Detalhes do carro</h1>
       </div>
      
     )

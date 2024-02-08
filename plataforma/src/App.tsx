@@ -23,7 +23,7 @@ const router = createBrowserRouter ([
     },
     {
 
-      path: "/dashbord/new",
+      path: "/dashboard/new",
       element:<Private><New/></Private> 
     },
     

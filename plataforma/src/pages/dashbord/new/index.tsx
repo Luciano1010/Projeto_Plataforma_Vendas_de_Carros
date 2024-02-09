@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { Input } from "../../../components/input"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { auth, db } from "../../../services/firebaseconnection"
+import { db } from "../../../services/firebaseconnection"
 import { authContext } from "../../../context/authContext"
 import { v4 as uuidV4} from 'uuid'
 import { storage } from "../../../services/firebaseconnection"
@@ -66,7 +66,7 @@ export function New() {
         }
     })
     addDoc(collection(db, "cars"),{
-      name: data.name,
+      name: data.name.toUpperCase(),
       model: data.model,
       whatsapp: data.whatsapp,
       city: data.city,
@@ -106,6 +106,8 @@ export function New() {
 }
 
 async function handleUpload(image: File){
+
+
   if(!user?.uid){
       return;
   }
@@ -164,8 +166,8 @@ async function handleDeleteImage(item: ImageItemProps){
 
         {carImages.map( item =>(
           <div key={item.name} className="w-full h-32 flex items-center justify-center relative">
-            <button className="absolute top-0 right-0" onClick={() => handleDeleteImage(item) }>
-              <FiTrash size={28} color="#fff" />
+            <button className="absolute" onClick={() => handleDeleteImage(item) }>
+              <FiTrash size={25} color="#fff" />
             </button>
               <img
                 src={item.previewUrl}
